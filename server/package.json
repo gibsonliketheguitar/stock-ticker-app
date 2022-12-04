@@ -3,8 +3,8 @@
   "name": "server",
   "version": "1.0.0",
   "scripts": {
-    "start": "set NODE_ENV=production&& node server.js",
-    "dev": "set NODE_ENV=development&& nodemon server.js",
+    "start": "set NODE_ENV=production&& node server.mjs",
+    "dev": "set NODE_ENV=development&& nodemon server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "restart": "npx kill-port 3001 && yarn run dev"
   },

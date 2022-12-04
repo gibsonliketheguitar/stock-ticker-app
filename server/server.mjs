@@ -1,15 +1,15 @@
-const express = require("express");
+import express from "express";
 const app = express();
 
-const compression = require("compression");
-const cors = require("cors");
-const helmet = require("helmet");
+import compression from "compression";
+import cors from "cors";
+import helmet from "helmet";
+import finnhub from "finnhub";
 
 app.use(compression()); // Compress all routes
 app.use(cors());
 app.use(helmet());
 
-const finnhub = require("finnhub");
 const api_key = finnhub.ApiClient.instance.authentications["api_key"];
 api_key.apiKey = "bv4mnbf48v6qpate9n30"; // Replace this
 const finnhubClient = new finnhub.DefaultApi();
@@ -77,9 +77,8 @@ if (process.env.NODE_ENV === "development") {
     console.log("HTTP Server listening on port", PORT);
   });
 } else {
-  const https = require("https");
-  const server = https.createServer(app).listen(process.env.PORT, (err) => {
+  app.listen(process.env.PORT || 3001, (err) => {
     if (err) console.log("Trouble with production server");
-    console.log("HTTPS Server listening on port", 3001);
+    console.log("HTTPS Server listening on port", process.env.PORT || 3001);
   });
 }

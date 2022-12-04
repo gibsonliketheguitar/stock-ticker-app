@@ -13,17 +13,18 @@ export default function StockSearch() {
 
   const handleOnSubmit = async () => {
     if (input.length < 3) return;
-    await fetchData();
+    setResult(input);
+    //await fetchData();
   };
 
   async function fetchData() {
     try {
       const baseURL = "http://localhost:8000/stock";
-      //const queryParam = "?name=" + input;
-      const response = await fetch(baseURL);
+      const queryParam = "?symbol=" + input;
+      const response = await fetch(baseURL + queryParam);
       if (!response.ok) throw new Error();
       const res = await response.json();
-      setResult(res.data);
+      setResult(res);
     } catch (err) {
       console.log("failed to get stock");
     }

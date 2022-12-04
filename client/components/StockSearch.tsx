@@ -8,7 +8,8 @@ export default function StockSearch() {
   const [result, setResult] = useRecoilState<any>(searchResult);
 
   const handleTextInput = (e: any) => {
-    setInput(e.target.value);
+    const chars = e.target.value.toUpperCase();
+    setInput(chars);
   };
 
   const handleOnSubmit = async () => {
@@ -30,7 +31,6 @@ export default function StockSearch() {
       if (!response.ok) throw new Error();
 
       const res = await response.json();
-      console.log(res);
       setResult(res);
     } catch (err) {
       console.log("failed to get stock");

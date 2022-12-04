@@ -3,7 +3,6 @@ import { Box, Card, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { useRecoilValue } from "recoil";
 import { searchResult } from "../atoms/search";
-import Link from "next/link";
 
 function ObjIsEmpty(input: any) {
   let count = 0;
@@ -28,10 +27,10 @@ function StockCard() {
     previousClose,
     percentChange,
     logo,
+    timeOfQuery,
     weburl,
   }: any = useRecoilValue(searchResult);
   const result = useRecoilValue(searchResult);
-  console.log("result", result);
   const Row = styled("div")({
     display: "flex",
     justifyContent: "center",
@@ -40,7 +39,7 @@ function StockCard() {
   const CellLabel = styled(Typography)({
     flex: 1,
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "left",
     padding: "12px",
     textAlign: "left",
   });
@@ -55,7 +54,15 @@ function StockCard() {
   });
 
   return (
-    <Card style={{ display: "flex", flex: "wrap", padding: "24px" }}>
+    <Card
+      variant="outlined"
+      style={{
+        display: "flex",
+        backgroundColor: "",
+        flex: "wrap",
+        padding: "24px",
+      }}
+    >
       <Box
         style={{
           flex: 1,
@@ -85,7 +92,13 @@ function StockCard() {
           </CellText>
         </Row>
         <Row>
-          <CellLabel variant="h5">Current Price:</CellLabel>
+          <CellLabel variant="h5">Industry:</CellLabel>
+          <CellText variant="body1">{industry}</CellText>
+        </Row>
+        <Row>
+          <CellLabel variant="h5">
+            {new Date(timeOfQuery).toDateString()}
+          </CellLabel>
           <CellText variant="body1">{currentPrice}</CellText>
         </Row>
         <Row>

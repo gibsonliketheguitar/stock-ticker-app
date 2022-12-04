@@ -9,11 +9,11 @@ export default function Home() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: "20px",
         height: "100vh",
+        paddingTop: "120px",
       }}
     >
-      <Typography variant="h1">Stock API</Typography>
+      <Typography variant="h1">Search Stock</Typography>
       <DisplaySearch />
       <StockSearch />
     </Box>

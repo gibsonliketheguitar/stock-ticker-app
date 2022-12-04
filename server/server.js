@@ -48,7 +48,6 @@ app.get("/stock", async (req, res) => {
     const profile = await getProfile(symbol);
     const prices = await getQuote(symbol);
 
-    console.log(profile, prices);
     res.status(200).send({
       symbol,
       timeOfQuery: new Date(),
@@ -56,7 +55,7 @@ app.get("/stock", async (req, res) => {
       ...prices,
     });
   } catch (error) {
-    res.status(404).send("Server Failure", error);
+    res.status(400).send(error);
   }
 });
 

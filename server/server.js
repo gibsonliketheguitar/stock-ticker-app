@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
+
 const compression = require("compression");
+const cors = require("cors");
 const helmet = require("helmet");
 
-app.use(cors());
 app.use(compression()); // Compress all routes
+app.use(cors());
 app.use(helmet());
 
 const finnhub = require("finnhub");
@@ -69,11 +70,16 @@ app.get("/stock", async (req, res) => {
 
 const PORT = 8000;
 //listen for request on port 8000, and as a callback function have the port listened on logged
-const enviorment = process.env.NODE_ENV;
-console.log(enviorment);
-if (enviorment !== "production") {
+
+if (process.env.NODE_ENV === "development") {
   app.listen(PORT, (err) => {
-    if (err) console.log("Error in server setup");
-    console.log("Server listening on port", PORT);
+    if (err) console.log("Trouble with development server");
+    console.log("HTTP Server listening on port", PORT);
+  });
+} else {
+  const https = require("https");
+  const server = https.createServer(app).listen(process.env.PORT, (err) => {
+    if (err) console.log("Trouble with production server");
+    console.log("HTTPS Server listening on port", 3001);
   });
 }

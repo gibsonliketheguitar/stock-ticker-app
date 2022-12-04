@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { Box, Button, TextField } from "@mui/material";
 import { searchResult } from "../atoms/search";
+import { isConstructorDeclaration } from "typescript";
 
 export default function StockSearch() {
   const [input, setInput] = useState("");
@@ -23,9 +24,14 @@ export default function StockSearch() {
   };
 
   async function fetchData() {
+    console.log(process.env.NEXT_PUBLIC_PROD_SERVER);
     try {
-      const baseURL = "http://localhost:8000/stock";
-      const query = "?symbol=" + input;
+      const baseURL =
+        process.env.NODE_ENV === "development"
+          ? process.env.NEXT_PUBLIC_DEV_SERVER
+          : process.env.NEXT_PUBLIC_PROD_SERVER;
+
+      const query = "/stock?symbol=" + input;
       const response = await fetch(baseURL + query);
 
       if (!response.ok) throw new Error();

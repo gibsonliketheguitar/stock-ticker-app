@@ -8,14 +8,26 @@ export default function StockSearch() {
   const [_, setResult] = useRecoilState(searchResult);
 
   const handleTextInput = (e: any) => {
-    console.log("text change", e);
     setInput(e.target.value);
   };
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async () => {
     if (input.length < 3) return;
-    setResult(input);
+    await fetchData();
   };
+
+  async function fetchData() {
+    try {
+      const baseURL = "http://localhost:8000/stock";
+      //const queryParam = "?name=" + input;
+      const response = await fetch(baseURL);
+      if (!response.ok) throw new Error();
+      const res = await response.json();
+      setResult(res.data);
+    } catch (err) {
+      console.log("failed to get stock");
+    }
+  }
 
   /*
     TODO enhancement
@@ -26,7 +38,12 @@ export default function StockSearch() {
   return (
     <Box>
       <Box style={{ display: "flex" }}>
-        <TextField value={input} onChange={handleTextInput} sx={{ flex: 1 }} />
+        <TextField
+          value={input}
+          onChange={handleTextInput}
+          sx={{ flex: 1 }}
+          error={input.length >= 6}
+        />
         <Button variant="contained" onClick={handleOnSubmit}>
           Search
         </Button>

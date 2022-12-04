@@ -13,17 +13,19 @@ export default function StockSearch() {
 
   const handleOnSubmit = async () => {
     if (input.length < 3) return;
-    setResult(input);
-    //await fetchData();
+    await fetchData();
   };
 
   async function fetchData() {
     try {
       const baseURL = "http://localhost:8000/stock";
-      const queryParam = "?symbol=" + input;
-      const response = await fetch(baseURL + queryParam);
+      const query = "?symbol=" + input;
+      const response = await fetch(baseURL + query);
+
       if (!response.ok) throw new Error();
+
       const res = await response.json();
+      console.log(res);
       setResult(res);
     } catch (err) {
       console.log("failed to get stock");
@@ -37,18 +39,16 @@ export default function StockSearch() {
   */
 
   return (
-    <Box>
-      <Box style={{ display: "flex" }}>
-        <TextField
-          value={input}
-          onChange={handleTextInput}
-          sx={{ flex: 1 }}
-          error={input.length >= 6}
-        />
-        <Button variant="contained" onClick={handleOnSubmit}>
-          Search
-        </Button>
-      </Box>
+    <Box style={{ display: "flex", margin: "24px" }}>
+      <TextField
+        value={input}
+        onChange={handleTextInput}
+        sx={{ flex: 1 }}
+        error={input.length >= 6}
+      />
+      <Button variant="contained" onClick={handleOnSubmit}>
+        Search
+      </Button>
     </Box>
   );
 }

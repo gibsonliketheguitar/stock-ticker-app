@@ -1,69 +1,100 @@
-import styled from "@emotion/styled";
+import Image from "next/image";
 import { Box, Card, Typography } from "@mui/material";
+import styled from "@emotion/styled";
 import { useRecoilValue } from "recoil";
 import { searchResult } from "../atoms/search";
+import Link from "next/link";
+
+function ObjIsEmpty(input: any) {
+  let count = 0;
+  for (const [key, value] of Object.entries(input)) {
+    if (key) count += 1;
+  }
+  return count === 0;
+}
 
 export function DisplaySearch() {
   const result: any = useRecoilValue(searchResult);
-
-  function ObjIsEmpty(input: any) {
-    let count = 0;
-    for (const [key, value] of Object.entries(input)) {
-      if (key) count += 1;
-    }
-    return count === 0;
-  }
-
   if (ObjIsEmpty(result)) return <></>;
-  return (
-    <StockCard
-      name={"Apple"}
-      symbol={"APPL"}
-      currentPrice={"$10.00"}
-      closingPrice={"$11.00"}
-      percentageChange={"10%"}
-    />
-  );
+  return <StockCard />;
 }
 
-function StockCard({
-  name,
-  symbol,
-  currentPrice,
-  closingPrice,
-  percentageChange,
-}: any) {
+function StockCard() {
+  const {
+    name,
+    symbol,
+    industry,
+    currentPrice,
+    previousClose,
+    percentChange,
+    logo,
+    weburl,
+  }: any = useRecoilValue(searchResult);
+  const result = useRecoilValue(searchResult);
+  console.log("result", result);
   const Row = styled("div")({
     display: "flex",
     justifyContent: "center",
   });
 
+  const CellLabel = styled(Typography)({
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    padding: "12px",
+    textAlign: "left",
+  });
+
   const CellText = styled(Typography)({
     flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     padding: "12px",
+    textAlign: "center",
   });
 
   return (
-    <Card style={{ display: "flex" }}>
-      <Box style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        {"company image"}
+    <Card style={{ display: "flex", flex: "wrap", padding: "24px" }}>
+      <Box
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "12px",
+        }}
+      >
+        <Image
+          src={logo}
+          alt={name + " " + "logo"}
+          width={240}
+          height={240}
+          style={{
+            borderRadius: "12px",
+            objectFit: "cover",
+            margin: "2px",
+          }}
+        />
       </Box>
-      <Box style={{ flex: 1 }}>
+      <Box style={{ flex: 3, padding: "12px" }}>
         <Row>
-          <CellText variant="h4">{name}</CellText>
-          <CellText variant="h4">{symbol}</CellText>
+          <CellLabel variant="h3">{name}</CellLabel>
+          <CellText variant="h4" sx={{ alignItems: "center" }}>
+            {symbol}
+          </CellText>
         </Row>
         <Row>
-          <CellText variant="body1">Current Price:</CellText>
+          <CellLabel variant="h5">Current Price:</CellLabel>
           <CellText variant="body1">{currentPrice}</CellText>
         </Row>
         <Row>
-          <CellText variant="body1">Last Closing Price</CellText>
-          <CellText variant="body1">{closingPrice}</CellText>
+          <CellLabel variant="h5">Last Closing Price:</CellLabel>
+          <CellText variant="body1">{previousClose}</CellText>
         </Row>
         <Row>
-          <CellText variant="body1">Percentage Change</CellText>
-          <CellText variant="body1">{percentageChange}</CellText>
+          <CellLabel variant="h5">Percentage Change:</CellLabel>
+          <CellText variant="body1">{percentChange + " %"}</CellText>
         </Row>
       </Box>
     </Card>

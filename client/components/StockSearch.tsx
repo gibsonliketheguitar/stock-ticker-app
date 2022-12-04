@@ -1,16 +1,20 @@
-import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { Box, Button, TextField } from "@mui/material";
+import { searchResult } from "../atoms/search";
 
 export default function StockSearch() {
   const [input, setInput] = useState("");
+  const [_, setResult] = useRecoilState(searchResult);
 
   const handleTextInput = (e: any) => {
     console.log("text change", e);
     setInput(e.target.value);
   };
 
-  const handleOnSubmit = (e: any) => {
-    console.log("on submit");
+  const handleOnSubmit = () => {
+    if (input.length < 3) return;
+    setResult(input);
   };
 
   /*

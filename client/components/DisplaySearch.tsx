@@ -30,7 +30,6 @@ function StockCard() {
     timeOfQuery,
     weburl,
   }: any = useRecoilValue(searchResult);
-  const result = useRecoilValue(searchResult);
   const Row = styled("div")({
     display: "flex",
     justifyContent: "center",

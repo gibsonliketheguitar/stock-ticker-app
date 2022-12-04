@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { Box, Button, TextField } from "@mui/material";
 import { searchResult } from "../atoms/search";
-import { isConstructorDeclaration } from "typescript";
 
 export default function StockSearch() {
   const [input, setInput] = useState("");
@@ -24,7 +23,6 @@ export default function StockSearch() {
   };
 
   async function fetchData() {
-    console.log(process.env.NEXT_PUBLIC_PROD_SERVER);
     try {
       const baseURL =
         process.env.NODE_ENV === "development"

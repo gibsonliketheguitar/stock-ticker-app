@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const compression = require("compression");
+const helmet = require("helmet");
 
 app.use(cors());
+app.use(compression()); // Compress all routes
+app.use(helmet());
 
 const finnhub = require("finnhub");
 const api_key = finnhub.ApiClient.instance.authentications["api_key"];
@@ -42,6 +46,10 @@ function getProfile(symbol) {
   });
 }
 
+app.get("/", (req, res) => {
+  res.send({ data: "helloWorld" });
+});
+
 app.get("/stock", async (req, res) => {
   const { symbol } = req.query;
   try {
@@ -60,9 +68,12 @@ app.get("/stock", async (req, res) => {
 });
 
 const PORT = 8000;
-
 //listen for request on port 8000, and as a callback function have the port listened on logged
-app.listen(PORT, (err) => {
-  if (err) console.log("Error in server setup");
-  console.log("Server listening on port", PORT);
-});
+const enviorment = process.env.NODE_ENV;
+console.log(enviorment);
+if (enviorment !== "production") {
+  app.listen(PORT, (err) => {
+    if (err) console.log("Error in server setup");
+    console.log("Server listening on port", PORT);
+  });
+}

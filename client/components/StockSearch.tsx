@@ -5,7 +5,7 @@ import { searchResult } from "../atoms/search";
 
 export default function StockSearch() {
   const [input, setInput] = useState("");
-  const [_, setResult] = useRecoilState(searchResult);
+  const [result, setResult] = useRecoilState<any>(searchResult);
 
   const handleTextInput = (e: any) => {
     setInput(e.target.value);
@@ -14,6 +14,11 @@ export default function StockSearch() {
   const handleOnSubmit = async () => {
     if (input.length < 3) return;
     await fetchData();
+  };
+
+  const handleReset = () => {
+    setInput("");
+    setResult("");
   };
 
   async function fetchData() {
@@ -45,10 +50,25 @@ export default function StockSearch() {
         onChange={handleTextInput}
         sx={{ flex: 1 }}
         error={input.length >= 6}
+        style={{ width: "390px", marginRight: "12px" }}
       />
-      <Button variant="contained" onClick={handleOnSubmit}>
+      <Button
+        variant="contained"
+        onClick={handleOnSubmit}
+        sx={{ marginRight: "12px", width: "240px" }}
+      >
         Search
       </Button>
+      {result && result?.name && result?.name?.length && (
+        <Button
+          variant="outlined"
+          onClick={handleReset}
+          sx={{ marginRight: "12px", width: "240px" }}
+        >
+          {" "}
+          Reset{" "}
+        </Button>
+      )}
     </Box>
   );
 }

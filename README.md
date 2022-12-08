@@ -1,6 +1,6 @@
 # Live Link
 
-http://stock-ticker-app-sigma.vercel.app/
+https://stock-ticker-27dyhwn8v-gibsonliketheguitar.vercel.app/
 
 ## How to Build and run locally
 
